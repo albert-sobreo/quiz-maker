@@ -1,0 +1,218 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../static/css/style2.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans|Fjalla+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Carter+One&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans+SC|Carter+One&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script defer src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <title>Quiz Maker | Quiz Maker</title>
+    <style>
+        body{
+            background: url("../../media/pictures/quicklynx bg.png");
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        .fa-trash-alt{
+            transition: .3s;
+            color: grey;
+        }
+        .fa-trash-alt:hover{
+            color: rgb(255, 75, 75);
+        }
+    </style>
+</head>
+<body class="oswald">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col col-1 text-center ">
+                <i class="fas fa-chevron-left text-transparent-8 pointer mt-3" style="font-size: 2em; vertical-align:baseline" onclick="location.href='/'"></i>
+            </div>
+            <div class="col col-4">
+                <div class="row">
+                    <div class="col">
+                        <span class="font-weight-bold text-transparent-8 display-5">QuickLynx Quiz Maker</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <span class="font-weight-bold text-transparent-8 display-5">BSIT09 <span class="text-transparent-9">{{quiz.quiz_name}}</span></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <span class="text-transparent-8 display-6">Deadline: {{quiz.deadline|date:"M j, Y @ g:i A"}}</span>
+                    </div>
+                </div>
+
+
+                <div class="row my-2" id="section-selector-container">
+                    <!-- <div class="col col-11 mx-3 my-1 py-1 px-3 box border" id="ss-1">
+                        <span>Section 1</span>
+                        &nbsp;
+                        <span class="small text-muted">10 Questions | 2 PPI | Multiple Choice</span>
+                    </div> -->
+                </div>
+
+
+                <div class="row" id="cqs-container">
+                    <div class="col col-11 box mx-3 p-3 border" id="cqs-1">
+                        <div class="col col-12">
+                            <span class="display-7 font-weight-bold">Create Quiz Section</span>
+                        </div>
+                        <div class="col col-12">
+                            <div class="mb-2">
+                                <label for="noi">Number of Items</label>
+                                <input type="number" class="col form-control" name="noi-cqs-1" id="noi-cqs-1" min="1">
+                            </div>
+                            <div class="mb-2">
+                                <label for="ppi">Points per Item</label>
+                                <input type="number" class="col form-control" name="ppi-cqs-1" id="ppi-cqs-1" min="1">
+                            </div>
+                            <div class="mb-2">
+                                <label for="qt">Question Type</label>
+                                <select name="qt" id="qt-cqs-1" class="col form-control">
+                                    <option value="Multiple Choice">Multiple Choice</option>
+                                    <option value="True or False">True or False</option>
+                                </select>
+                            </div>
+                            <div class="mb-2">
+                                <button class="post-btn text-center col font-weight-bold" onclick="createSection('cqs-1')">Create</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col col-7" id="section-container">
+                <!-- start section -->
+                <!-- <div class="row mt-4" id="section-1">
+                    <div class="col box mx-3 p-3 border">
+                        <div class="col col-12">
+                            <span class="display-7 font-weight-bold">Section</span>
+                        </div> -->
+                        <!-- question section -->
+                        <!-- <div class="col col-12" id="question-section-1">
+                            <div class="col box box-shadow border my-2">
+                                <div class="row p-2">
+                                    <div class="col col-2">
+                                        Question 1
+                                    </div>
+                                    <div class="col col-10">
+                                        <textarea name="" id="" cols="30" rows="5" class="form-control" maxlength="1024" style="resize: none;"></textarea>
+                                    </div>
+                                </div>
+                                <div class="row p-2">
+                                    <div class="col col-2">
+                                        Choices:
+                                    </div>
+                                    <div class="col col-10">
+                                        <div id="choices-1-container-section-1"> -->
+                                        <!-- <div class="flex mb-3">
+                                            <span>1.&nbsp;</span><input type="text" class="form-control-alt" id="ch-a1"><span title="delete choice"><i class="fas fa-trash-alt"></i></span>
+                                        </div> -->
+                                        <!-- </div>
+                                        <div class="flex">
+                                            <span class="add-choice" onclick="addChoice('#choices-1-container-section-1')">+ Add Choice</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row p-2">
+                                    <div class="col col-2">
+                                        Answer:
+                                    </div>
+                                    <div class="col col-10">
+                                        <div class="flex mb-3">
+                                            <select name="" id="select-11" class="form-control-alt">
+                                                <option value="ha">ha</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                        <!-- end question section -->
+                    <!-- </div>
+                </div> -->
+                <!-- end section -->
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    oldcontainer = ''
+    var choiceID = ''
+    var prevchoiceID = []
+    function addChoice(container){
+        
+        var sectionID = container[container.length - 1];
+        var choicecontainerID = container[9]
+        if(prevchoiceID[sectionID-1][choicecontainerID-1] == 0){
+            prevchoiceID[sectionID-1][choicecontainerID-1] = 1 + prevchoiceID[sectionID-1][choicecontainerID-1]
+        }
+
+        var wat = prevchoiceID[sectionID-1][choicecontainerID-1]
+        
+        console.log(choicecontainerID)
+        $(container).append('<div class="flex mb-3"><input type="text" class="form-control-alt" onclick="saveMyID(id)" id="ch-' + sectionID + choicecontainerID + wat.toString(16) + '"><span title="delete choice" onclick=\'deleteChoice("ch-' + sectionID + choicecontainerID + wat.toString(16) + '")\'><i class="fas fa-trash-alt"></i></span></div>')
+        oldcontainer = container
+        choiceID = "ch-" + sectionID + choicecontainerID + wat
+        console.log(choiceID)
+
+        var input = document.getElementById(choiceID)
+    
+        input.addEventListener('blur', function(e){
+            console.log('hello world' + choiceID)
+        })
+
+        prevchoiceID[sectionID-1][choicecontainerID-1] = 1 + prevchoiceID[sectionID-1][choicecontainerID-1]
+
+
+    }
+
+    function saveMyID(id){
+        choiceID = id
+        console.log(choiceID)
+    }
+
+    function deleteChoice(sumID){
+        console.log(sumID)
+    }
+
+    function createSection(container){
+        //get the variables
+        var numItems = document.getElementById("noi-" + container).value
+        var ptsItems = document.getElementById("ppi-" + container).value
+        var qtnTypes = document.getElementById("qt-" + container).value
+
+        var sectionNum = container[container.length - 1]
+
+        prevchoiceID.push([])
+        
+        //adds section
+        $("#section-container").append('<div class="row mt-4" id="section-1"><div class="col box mx-3 p-3 border"><div class="col col-12"><span class="display-7 font-weight-bold">Section ' + sectionNum + '</span></div><div class="col col-12" id="question-section-' + sectionNum + '"></div></div></div>')
+
+        //adds questions
+        for(var i = 1; i <= numItems; i++){
+            $("#question-section-" + sectionNum).append('<div class="col box box-shadow border my-2" id="qq-"' + sectionNum + i + '><div class="row p-2"><div class="col col-2">Question ' + i + '</div><div class="col col-10"><textarea name="" id="tArea-' + sectionNum + i + '" cols="30" rows="5" class="form-control" maxlength="1024" style="resize: none;"></textarea></div></div><div class="row p-2"><div class="col col-2">Choices:</div><div class="col col-10"><div id="choices-' + i + 'container-section-' + sectionNum + '"></div><div class="flex"><span class="add-choice" onclick="addChoice(\'#choices-' + i + 'container-section-' + sectionNum + '\')">+ Add Choice</span></div></div></div><div class="row p-2"><div class="col col-2">Answer:</div><div class="col col-10"><div class="flex mb-3"><select name="" id="select-11" class="form-control-alt"><option value="ha">ha</option></select></div></div></div></div>')
+            prevchoiceID[sectionNum-1].push(0)
+        }
+
+        //add section selector
+        var qqq = numItems == 1 ? "Question" : "Questions";
+        $("#section-selector-container").append('<div class="col col-11 mx-3 my-1 py-1 px-3 box border" id="ss-' + sectionNum + '"><span>Section ' + sectionNum + '</span>&nbsp;<span class="small text-muted">' + numItems + ' ' + qqq + ' | ' + ptsItems + ' PPI | ' + qtnTypes + '</span></div>')
+
+        //add new CQS
+        $("#cqs-container").append('<div class="col col-11 box mx-3 p-3 border" id="cqs-' + (parseInt(sectionNum) + 1) + '"><div class="col col-12"><span class="display-7 font-weight-bold">Create Quiz Section</span></div><div class="col col-12"><div class="mb-2"><label for="noi">Number of Items</label><input type="number" class="col form-control" name="noi-cqs-' + (parseInt(sectionNum) + 1) + '" id="noi-cqs-' + (parseInt(sectionNum) + 1) + '" min="1"></div><div class="mb-2"><label for="ppi">Points per Item</label><input type="number" class="col form-control" name="ppi-cqs-' + (parseInt(sectionNum) + 1) + '" id="ppi-cqs-' + (parseInt(sectionNum) + 1) + '" min="1"></div><div class="mb-2"><label for="qt">Question Type</label><select name="qt" id="qt-cqs-' + (parseInt(sectionNum) + 1) + '" class="col form-control"><option value="Multiple Choice">Multiple Choice</option><option value="True or False">True or False</option></select></div><div class="mb-2"><button class="post-btn text-center col font-weight-bold" onclick="createSection(\'cqs-' + (parseInt(sectionNum) + 1) + '\')">Create</button></div></div>')
+        $("#cqs-" + sectionNum).css("display", "none")
+
+    }
+</script>
+</html>

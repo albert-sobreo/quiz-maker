@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../static/css/style2.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans|Fjalla+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Carter+One&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans+SC|Carter+One&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script defer src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <title>Home | Quiz Maker</title>
+    <style>
+        .flex-container{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        .quizbox{
+            display: block;
+            height: auto;
+            width: 400px;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
+        }
+        .quizlist{
+            border-radius: 100px;
+            cursor: pointer;
+            transition: .3s;
+        }
+        .quizlist:hover{
+            background: rgba(0,0,0,0.1)
+        }
+        .fa-trash-alt{
+            transition: .3s;
+            color: grey;
+        }
+        .fa-trash-alt:hover{
+            color: rgb(255, 75, 75);
+        }
+    </style>
+</head>
+<body>
+    <div class="flex-container">
+        <div class="quizbox oswald border my-3" id="left-div">
+            <form action="createquizprocess/" method="POST" autocomplete="off">{%csrf_token%}
+                <span class="display-6 font-weight-bold">Create Quiz</span>
+                <div class="form-group">
+                    <label for="quiz_name">Quiz Title</label>
+                    <input type="text" name="quiz_name" class="form-control" autofocus required>
+                </div>
+                <div class="form-group">
+                    <label for="deadline">Deadline</label>
+                    <input type="datetime-local" name="deadline" class="form-control" required>
+                </div>
+                <button class="btn btn-warning font-weight-bold py-1 px-3">Create Quiz Event</button>
+            </form>
+        </div>
+
+        <div class="quizbox border oswald my-3" id="right-div">
+            <span class="display-6 font-weight-bold text-left">Quiz List</span><br>
+            <span class="font-weight-light text-right text-muted">Click on quiz to edit</span>
+            {%for quiz in quizzes%}
+                <div class="border py-1 px-3 my-2 quizlist" onclick="location.href='/selectquiz/{{quiz.pk}}'">{{quiz.quiz_name}} <span class="small text-muted">Deadline: {{quiz.deadline}}</span></div>
+            {%endfor%}
+        </div>
+    </div>
+    
+</body>
+</html>
