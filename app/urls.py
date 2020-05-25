@@ -8,4 +8,5 @@ urlpatterns = [
     path('quizmaker/', views.quizmaker),
     path('selectquiz/<int:quizKey>', views.selectquiz),
     path('deletequiz/<int:quizKey>', views.deletequiz),
+    path('savequiz/', views.savequiz),
 ]

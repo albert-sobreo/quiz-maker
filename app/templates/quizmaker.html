@@ -22,15 +22,28 @@
             background-attachment: fixed;
         }
         .fa-trash-alt{
-            transition: .3s;
+            transition: .2s;
             color: grey;
         }
         .fa-trash-alt:hover{
             color: rgb(255, 75, 75);
         }
+        .fa-save{
+            transition: .2s;
+            cursor: pointer;
+        }
+        .fa-save:hover{
+            color: rgb(105, 240, 78);
+        }
+        .t-button{
+            background: none;
+            border: none;
+        }
+        
     </style>
 </head>
 <body class="oswald">
+<form action="/savequiz/" method="POST">{%csrf_token%}
     <div class="container-fluid">
         <div class="row">
             <div class="col col-1 text-center ">
@@ -55,6 +68,10 @@
 
 
                 <div class="row my-2" id="section-selector-container">
+                    <div class="col col-11 mx-3 my-1 py-1 px-3 box">
+                        <span>Controls</span>
+                        <button type="submit" class="float-right t-button" title="Save Quiz"><i class="fas fa-save"></i></button>
+                    </div>
                     <!-- this is where section selector is added -->
                 </div>
 
@@ -67,21 +84,21 @@
                         <div class="col col-12">
                             <div class="mb-2">
                                 <label for="noi">Number of Items</label>
-                                <input type="number" class="col form-control" name="noi-cqs-1" id="noi-cqs-1" min="1">
+                                <input type="number" class="col form-control" id="noi-cqs-1" min="1">
                             </div>
                             <div class="mb-2">
                                 <label for="ppi">Points per Item</label>
-                                <input type="number" class="col form-control" name="ppi-cqs-1" id="ppi-cqs-1" min="1">
+                                <input type="number" class="col form-control" id="ppi-cqs-1" min="1">
                             </div>
                             <div class="mb-2">
                                 <label for="qt">Question Type</label>
-                                <select name="qt" id="qt-cqs-1" class="col form-control">
+                                <select name="qt-cqs-1" id="qt-cqs-1" class="col form-control">
                                     <option value="Multiple Choice">Multiple Choice</option>
                                     <option value="True or False">True or False</option>
                                 </select>
                             </div>
                             <div class="mb-2">
-                                <button class="post-btn text-center col font-weight-bold" onclick="createSection('cqs-1')">Create</button>
+                                <button type="button" class="post-btn text-center col font-weight-bold" onclick="createSection('cqs-1')">Create</button>
                             </div>
                         </div>
                     </div>
@@ -92,6 +109,7 @@
             </div>
         </div>
     </div>
+</form>
 </body>
 <script>
     oldcontainer = ''
@@ -111,7 +129,7 @@
         console.log(choicecontainerID)
 
         //adds choice
-        $(container).append('<div class="flex mb-3"><input type="text" class="form-control-alt" onclick="saveMyID(id)" id="ch-' + sectionID + choicecontainerID + wat.toString(16) + '"><span title="delete choice" onclick=\'deleteChoice("ch-' + sectionID + choicecontainerID + wat.toString(16) + '")\'><i class="fas fa-trash-alt"></i></span></div>')
+        $(container).append('<div class="flex mb-3"><input type="text" class="form-control-alt" onclick="saveMyID(id)" id="ch-' + sectionID + choicecontainerID + wat.toString(16) + '" name="ch-' + sectionID + choicecontainerID + wat.toString(16) + '"><span title="delete choice" onclick=\'deleteChoice("ch-' + sectionID + choicecontainerID + wat.toString(16) + '")\'><i class="fas fa-trash-alt"></i></span></div>')
         //container saves to old container
         oldcontainer = container
         //choiceid is generated
@@ -155,11 +173,11 @@
         prevchoiceID.push([])
         
         //adds section
-        $("#section-container").append('<div class="row mt-4" id="section-1"><div class="col box mx-3 p-3 border"><div class="col col-12"><span class="display-7 font-weight-bold">Section ' + sectionNum + '</span></div><div class="col col-12" id="question-section-' + sectionNum + '"></div></div></div>')
+        $("#section-container").append('<div class="row mt-4" id="section-1"><div class="col box mx-3 p-3 border"><div class="col col-12"><span class="display-7 font-weight-bold">Section ' + sectionNum + '</span></div><div class="col col-12" id="question-section-' + sectionNum + '"><input hidden name="ppi-section-' + sectionNum + '" value="' + $('#ppi-cqs-' + sectionNum).val() + '"><input hidden name="qt-section-' + sectionNum + '" value="' + $('#qt-cqs-' + sectionNum).val() + '"></div></div></div>')
 
         //adds questions
         for(var i = 1; i <= numItems; i++){
-            $("#question-section-" + sectionNum).append('<div class="col box box-shadow border my-2" id="qq-"' + sectionNum + i + '><div class="row p-2"><div class="col col-2">Question ' + i + '</div><div class="col col-10"><textarea name="" id="tArea-' + sectionNum + i + '" cols="30" rows="5" class="form-control" maxlength="1024" style="resize: none;"></textarea></div></div><div class="row p-2"><div class="col col-2">Choices:</div><div class="col col-10"><div id="choices-' + i + 'container-section-' + sectionNum + '"></div><div class="flex"><span class="add-choice" onclick="addChoice(\'#choices-' + i + 'container-section-' + sectionNum + '\')">+ Add Choice</span></div></div></div><div class="row p-2"><div class="col col-2">Answer:</div><div class="col col-10"><div class="flex mb-3"><select name="select-' + sectionNum.toString() + i.toString() + '" id="select-' + sectionNum.toString() + i.toString() + '" class="form-control-alt"></select></div></div></div></div>')
+            $("#question-section-" + sectionNum).append('<div class="col box box-shadow border my-2" id="qq-"' + sectionNum + i + '><div class="row p-2"><div class="col col-2">Question ' + i + '</div><div class="col col-10"><textarea name="tArea-' + sectionNum + i + '" id="tArea-' + sectionNum + i + '" cols="30" rows="5" class="form-control" maxlength="1024" style="resize: none;"></textarea></div></div><div class="row p-2"><div class="col col-2">Choices:</div><div class="col col-10"><div id="choices-' + i + 'container-section-' + sectionNum + '"></div><div class="flex"><span class="add-choice" onclick="addChoice(\'#choices-' + i + 'container-section-' + sectionNum + '\')">+ Add Choice</span></div></div></div><div class="row p-2"><div class="col col-2">Answer:</div><div class="col col-10"><div class="flex mb-3"><select name="select-' + sectionNum.toString() + i.toString() + '" id="select-' + sectionNum.toString() + i.toString() + '" class="form-control-alt"></select></div></div></div></div>')
             prevchoiceID[sectionNum-1].push(0)
         }
 
@@ -168,7 +186,7 @@
         $("#section-selector-container").append('<div class="col col-11 mx-3 my-1 py-1 px-3 box border" id="ss-' + sectionNum + '"><span>Section ' + sectionNum + '</span>&nbsp;<span class="small text-muted">' + numItems + ' ' + qqq + ' | ' + ptsItems + ' PPI | ' + qtnTypes + '</span></div>')
 
         //add new CQS
-        $("#cqs-container").append('<div class="col col-11 box mx-3 p-3 border" id="cqs-' + (parseInt(sectionNum) + 1) + '"><div class="col col-12"><span class="display-7 font-weight-bold">Create Quiz Section</span></div><div class="col col-12"><div class="mb-2"><label for="noi">Number of Items</label><input type="number" class="col form-control" name="noi-cqs-' + (parseInt(sectionNum) + 1) + '" id="noi-cqs-' + (parseInt(sectionNum) + 1) + '" min="1"></div><div class="mb-2"><label for="ppi">Points per Item</label><input type="number" class="col form-control" name="ppi-cqs-' + (parseInt(sectionNum) + 1) + '" id="ppi-cqs-' + (parseInt(sectionNum) + 1) + '" min="1"></div><div class="mb-2"><label for="qt">Question Type</label><select name="qt" id="qt-cqs-' + (parseInt(sectionNum) + 1) + '" class="col form-control"><option value="Multiple Choice">Multiple Choice</option><option value="True or False">True or False</option></select></div><div class="mb-2"><button class="post-btn text-center col font-weight-bold" onclick="createSection(\'cqs-' + (parseInt(sectionNum) + 1) + '\')">Create</button></div></div>')
+        $("#cqs-container").append('<div class="col col-11 box mx-3 p-3 border" id="cqs-' + (parseInt(sectionNum) + 1) + '"><div class="col col-12"><span class="display-7 font-weight-bold">Create Quiz Section</span></div><div class="col col-12"><div class="mb-2"><label for="noi">Number of Items</label><input type="number" class="col form-control" name="noi-cqs-' + (parseInt(sectionNum) + 1) + '" id="noi-cqs-' + (parseInt(sectionNum) + 1) + '" min="1"></div><div class="mb-2"><label for="ppi">Points per Item</label><input type="number" class="col form-control" name="ppi-cqs-' + (parseInt(sectionNum) + 1) + '" id="ppi-cqs-' + (parseInt(sectionNum) + 1) + '" min="1"></div><div class="mb-2"><label for="qt">Question Type</label><select name="qt-cqs-' + (parseInt(sectionNum) + 1) + '" id="qt-cqs-' + (parseInt(sectionNum) + 1) + '" class="col form-control"><option value="Multiple Choice">Multiple Choice</option><option value="True or False">True or False</option></select></div><div class="mb-2"><button type="button" class="post-btn text-center col font-weight-bold" onclick="createSection(\'cqs-' + (parseInt(sectionNum) + 1) + '\')">Create</button></div></div>')
         $("#cqs-" + sectionNum).css("display", "none")
 
     }

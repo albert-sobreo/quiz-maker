@@ -38,3 +38,12 @@ def selectquiz(request, quizKey):
 def deletequiz(request, quizKey):
     Quiz_Event.objects.filter(pk=quizKey).delete()
     return redirect('/')
+
+def savequiz(request):
+    qe_id = request.session.get("quizKey")
+    quizEvent = Quiz_Event.objects.get(pk=qe_id)
+
+    for key, value in request.POST.items():
+        print("Key: {}".format(key), end=' ')
+        print("Val: {}".format(value))
+    print(quizEvent)
