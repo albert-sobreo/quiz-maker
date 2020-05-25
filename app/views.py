@@ -34,3 +34,7 @@ def quizmaker(request):
 def selectquiz(request, quizKey):
     request.session["quizKey"] = quizKey
     return redirect('/quizmaker/')
+
+def deletequiz(request, quizKey):
+    Quiz_Event.objects.filter(pk=quizKey).delete()
+    return redirect('/')

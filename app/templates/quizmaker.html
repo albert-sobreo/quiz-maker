@@ -55,11 +55,7 @@
 
 
                 <div class="row my-2" id="section-selector-container">
-                    <!-- <div class="col col-11 mx-3 my-1 py-1 px-3 box border" id="ss-1">
-                        <span>Section 1</span>
-                        &nbsp;
-                        <span class="small text-muted">10 Questions | 2 PPI | Multiple Choice</span>
-                    </div> -->
+                    <!-- this is where section selector is added -->
                 </div>
 
 
@@ -92,56 +88,7 @@
                 </div>
             </div>
             <div class="col col-7" id="section-container">
-                <!-- start section -->
-                <!-- <div class="row mt-4" id="section-1">
-                    <div class="col box mx-3 p-3 border">
-                        <div class="col col-12">
-                            <span class="display-7 font-weight-bold">Section</span>
-                        </div> -->
-                        <!-- question section -->
-                        <!-- <div class="col col-12" id="question-section-1">
-                            <div class="col box box-shadow border my-2">
-                                <div class="row p-2">
-                                    <div class="col col-2">
-                                        Question 1
-                                    </div>
-                                    <div class="col col-10">
-                                        <textarea name="" id="" cols="30" rows="5" class="form-control" maxlength="1024" style="resize: none;"></textarea>
-                                    </div>
-                                </div>
-                                <div class="row p-2">
-                                    <div class="col col-2">
-                                        Choices:
-                                    </div>
-                                    <div class="col col-10">
-                                        <div id="choices-1-container-section-1"> -->
-                                        <!-- <div class="flex mb-3">
-                                            <span>1.&nbsp;</span><input type="text" class="form-control-alt" id="ch-a1"><span title="delete choice"><i class="fas fa-trash-alt"></i></span>
-                                        </div> -->
-                                        <!-- </div>
-                                        <div class="flex">
-                                            <span class="add-choice" onclick="addChoice('#choices-1-container-section-1')">+ Add Choice</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row p-2">
-                                    <div class="col col-2">
-                                        Answer:
-                                    </div>
-                                    <div class="col col-10">
-                                        <div class="flex mb-3">
-                                            <select name="" id="select-11" class="form-control-alt">
-                                                <option value="ha">ha</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
-                        <!-- end question section -->
-                    <!-- </div>
-                </div> -->
-                <!-- end section -->
+                <!-- this is where section is added -->
             </div>
         </div>
     </div>
@@ -152,26 +99,37 @@
     var prevchoiceID = []
     function addChoice(container){
         
+        //variable initializations
         var sectionID = container[container.length - 1];
         var choicecontainerID = container[9]
         if(prevchoiceID[sectionID-1][choicecontainerID-1] == 0){
             prevchoiceID[sectionID-1][choicecontainerID-1] = 1 + prevchoiceID[sectionID-1][choicecontainerID-1]
         }
-
         var wat = prevchoiceID[sectionID-1][choicecontainerID-1]
         
+        //variable checking
         console.log(choicecontainerID)
+
+        //adds choice
         $(container).append('<div class="flex mb-3"><input type="text" class="form-control-alt" onclick="saveMyID(id)" id="ch-' + sectionID + choicecontainerID + wat.toString(16) + '"><span title="delete choice" onclick=\'deleteChoice("ch-' + sectionID + choicecontainerID + wat.toString(16) + '")\'><i class="fas fa-trash-alt"></i></span></div>')
+        //container saves to old container
         oldcontainer = container
+        //choiceid is generated
         choiceID = "ch-" + sectionID + choicecontainerID + wat
+        //variable checking
         console.log(choiceID)
 
+        //adds an option to select when choice is added as well
+        $('#select-' + sectionID.toString() + choicecontainerID.toString()).append('<option val="' + sectionID + choicecontainerID + wat.toString(16) + '" id="option-' + sectionID + choicecontainerID + wat.toString(16) + '"></option>')
+
+        //adds listener to choice when unfocused
         var input = document.getElementById(choiceID)
-    
         input.addEventListener('blur', function(e){
             console.log('hello world' + choiceID)
+            $("#option-" + sectionID + choicecontainerID + wat.toString(16)).html($('#ch-' + sectionID + choicecontainerID + wat.toString(16)).val())
         })
 
+        //adds 1 to number of previous choice
         prevchoiceID[sectionID-1][choicecontainerID-1] = 1 + prevchoiceID[sectionID-1][choicecontainerID-1]
 
 
@@ -201,7 +159,7 @@
 
         //adds questions
         for(var i = 1; i <= numItems; i++){
-            $("#question-section-" + sectionNum).append('<div class="col box box-shadow border my-2" id="qq-"' + sectionNum + i + '><div class="row p-2"><div class="col col-2">Question ' + i + '</div><div class="col col-10"><textarea name="" id="tArea-' + sectionNum + i + '" cols="30" rows="5" class="form-control" maxlength="1024" style="resize: none;"></textarea></div></div><div class="row p-2"><div class="col col-2">Choices:</div><div class="col col-10"><div id="choices-' + i + 'container-section-' + sectionNum + '"></div><div class="flex"><span class="add-choice" onclick="addChoice(\'#choices-' + i + 'container-section-' + sectionNum + '\')">+ Add Choice</span></div></div></div><div class="row p-2"><div class="col col-2">Answer:</div><div class="col col-10"><div class="flex mb-3"><select name="" id="select-11" class="form-control-alt"><option value="ha">ha</option></select></div></div></div></div>')
+            $("#question-section-" + sectionNum).append('<div class="col box box-shadow border my-2" id="qq-"' + sectionNum + i + '><div class="row p-2"><div class="col col-2">Question ' + i + '</div><div class="col col-10"><textarea name="" id="tArea-' + sectionNum + i + '" cols="30" rows="5" class="form-control" maxlength="1024" style="resize: none;"></textarea></div></div><div class="row p-2"><div class="col col-2">Choices:</div><div class="col col-10"><div id="choices-' + i + 'container-section-' + sectionNum + '"></div><div class="flex"><span class="add-choice" onclick="addChoice(\'#choices-' + i + 'container-section-' + sectionNum + '\')">+ Add Choice</span></div></div></div><div class="row p-2"><div class="col col-2">Answer:</div><div class="col col-10"><div class="flex mb-3"><select name="select-' + sectionNum.toString() + i.toString() + '" id="select-' + sectionNum.toString() + i.toString() + '" class="form-control-alt"></select></div></div></div></div>')
             prevchoiceID[sectionNum-1].push(0)
         }
 

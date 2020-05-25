@@ -29,17 +29,23 @@
             border-radius: 15px;
             box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
         }
-        .quizlist{
-            border-radius: 100px;
+        .quizlist-left{
+            border-bottom-left-radius: 100px;
+            border-top-left-radius: 100px;
             cursor: pointer;
             transition: .3s;
         }
-        .quizlist:hover{
+        .quizlist-right{
+            border-bottom-right-radius: 100px;
+            border-top-right-radius: 100px;
+        }
+        .quizlist-left:hover{
             background: rgba(0,0,0,0.1)
         }
         .fa-trash-alt{
             transition: .3s;
             color: grey;
+            cursor: pointer;
         }
         .fa-trash-alt:hover{
             color: rgb(255, 75, 75);
@@ -67,7 +73,15 @@
             <span class="display-6 font-weight-bold text-left">Quiz List</span><br>
             <span class="font-weight-light text-right text-muted">Click on quiz to edit</span>
             {%for quiz in quizzes%}
-                <div class="border py-1 px-3 my-2 quizlist" onclick="location.href='/selectquiz/{{quiz.pk}}'">{{quiz.quiz_name}} <span class="small text-muted">Deadline: {{quiz.deadline}}</span></div>
+            <div class="row">
+                <div class="border col-10 col py-1 px-3 my-2 quizlist-left" onclick="location.href='/selectquiz/{{quiz.pk}}'">{{quiz.quiz_name}} <span class="small text-muted">Deadline: {{quiz.deadline}}</span></div>
+
+                <div class="col col-2 py-1 px-3 my-2 border quizlist-right text-center">
+                    <span onclick="location.href='/deletequiz/{{quiz.pk}}'">
+                        <i class="fas fa-trash-alt"></i>
+                    </span>
+                </div>
+            </div>
             {%endfor%}
         </div>
     </div>
