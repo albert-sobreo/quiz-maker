@@ -15,7 +15,7 @@ class Quiz_Choices(models.Model):
 
 
 class Quiz_Answer(models.Model):
-    quiz_answer = models.ForeignKey(Quiz_Choices, on_delete=models.CASCADE)
+    quiz_answer = models.CharField(max_length=128)
 
     class Meta:
         db_table = "quiz_answer"

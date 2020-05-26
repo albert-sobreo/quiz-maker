@@ -43,7 +43,51 @@ def savequiz(request):
     qe_id = request.session.get("quizKey")
     quizEvent = Quiz_Event.objects.get(pk=qe_id)
 
-    for key, value in request.POST.items():
-        print("Key: {}".format(key), end=' ')
-        print("Val: {}".format(value))
-    print(quizEvent)
+    ppi = {}
+    qt = {}
+    tA = {}
+    ch = {}
+    se = {}
+
+    for key, val in request.POST.items():
+        if 'ppi-section' in key:
+            ppi[key[-1]] = val
+
+        elif 'qt-section' in key:
+            qt[key[-1]] = val
+
+        elif 'tArea' in key:
+            tA[key[-2] + key[-1]] = val
+
+        elif 'ch' in key:
+            ch[key[-3] + key[-2] + key[-1]] = val
+
+        elif 'select' in key:
+            se[key[-2] + key[-1]] = val
+
+    for key, val in se.items():
+        globals()['answer_{}'.format(key)] = Quiz_Answer()
+        globals()['answer_{}'.format(key)].quiz_answer = val
+        globals()['answer_{}'.format(key)].save()
+
+    for key, val in ch.items():
+        globals()['ch_{}'.format(key)] = Quiz_Choices()
+        globals()['ch_{}'.format(key)].choice = val
+        globals()['ch_{}'.format(key)].save()
+
+    for key, val in tA.items():
+        globals()['question_{}'.format(key)] = Quiz_Question()
+        globals()['question_{}'.format(key)].question = val
+
+        globals()['question_{}'.format(key)].quiz_answer = globals()['answer_{}'.format(key)]
+
+        k = ''
+        j = ''
+        
+        globals()['question_{}'.format(key)].save()
+        for k, j in globals().items():
+            if "ch_{}".format(key) in k:
+                print(globals()['{}'.format(k)])
+                globals()['question_{}'.format(key)].quiz_choices.add(globals()['{}'.format(k)])
+
+        globals()['question_{}'.format(key)].save()
