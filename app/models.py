@@ -60,5 +60,3 @@ class Quiz_Event(models.Model):
 
     def __str__(self):
         return self.quiz_name
-
-

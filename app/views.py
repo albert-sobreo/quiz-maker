@@ -91,3 +91,27 @@ def savequiz(request):
                 globals()['question_{}'.format(key)].quiz_choices.add(globals()['{}'.format(k)])
 
         globals()['question_{}'.format(key)].save()
+
+    for key, val in ppi.items():
+        globals()['section_{}'.format(key)] = Quiz_Section()
+        globals()['section_{}'.format(key)].points_per_item = val
+        globals()['section_{}'.format(key)].save()
+
+        for k, j in globals().items():
+            if "question_{}".format(key) in k:
+                globals()['section_{}'.format(key)].quiz_question.add(globals()['{}'.format(k)])
+
+        globals()['section_{}'.format(key)].save()
+
+    for key, val in qt.items():
+        globals()['section_{}'.format(key)].quiz_type = val
+        globals()['section_{}'.format(key)].save()
+
+    for key, val in ppi.items():
+        quizEvent.quiz_section.add(globals()['section_{}'.format(key)])
+        quizEvent.save()
+
+    return redirect('/')
+
+def editquiz(request):
+    pass

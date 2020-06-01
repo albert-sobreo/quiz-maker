@@ -74,7 +74,7 @@
             <span class="font-weight-light text-right text-muted">Click on quiz to edit</span>
             {%for quiz in quizzes%}
             <div class="row">
-                <div class="border col-10 col py-1 px-3 my-2 quizlist-left" onclick="location.href='/selectquiz/{{quiz.pk}}'">{{quiz.quiz_name}} <span class="small text-muted">Deadline: {{quiz.deadline}}</span></div>
+                <div class="border col-10 col py-1 px-3 my-2 quizlist-left">{{quiz.quiz_name}} <span class="small text-muted">Deadline: {{quiz.deadline}}</span></div>
 
                 <div class="col col-2 py-1 px-3 my-2 border quizlist-right text-center">
                     <span onclick="location.href='/deletequiz/{{quiz.pk}}'">
